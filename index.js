@@ -1,3 +1,4 @@
+const config = require("config");
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
@@ -22,6 +23,11 @@ app.use("/api/movies", movies);
 app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+
+if (!config.get("jwtPrivateKey")) {
+  console.error("FATAL ERROR: jwtPrivateKey is not defined");
+  process.exit(1);
+}
 
 const port = 3900;
 
