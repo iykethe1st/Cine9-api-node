@@ -1,6 +1,6 @@
 require("express-async-errors");
-// const winston = require("winston");
-const error = require("./middleware/error");
+const winston = require("winston");
+const { logger } = require("./middleware/error");
 const config = require("config");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -14,7 +14,11 @@ const users = require("./routes/users");
 const Joi = require("Joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
-// winston.add(winston.transports.File, { filename: "logfile.log" });
+process.on("uncaughtException", (ex) => {
+  console.log("AN UNCAUGHT EXCEPTION OCCURED");
+});
+
+throw new Error("An error occured during startup");
 
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined");
