@@ -1,4 +1,3 @@
 {
   "jwtPrivateKey": "vidcity_jwtPrivateKey"
 }
-// export vidcity_jwtPrivateKey=mySecureKey

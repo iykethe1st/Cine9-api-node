@@ -1,3 +1,5 @@
+require("express-async-errors");
+const error = require("./middleware/error");
 const config = require("config");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -24,6 +26,8 @@ app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 
+app.use(error);
+
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined");
   process.exit(1);
@@ -34,3 +38,4 @@ const port = 3900;
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
 });
+// export vidcity_jwtPrivateKey=mySecureKey
