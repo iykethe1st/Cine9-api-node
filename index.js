@@ -1,4 +1,5 @@
 require("express-async-errors");
+// const winston = require("winston");
 const error = require("./middleware/error");
 const config = require("config");
 const mongoose = require("mongoose");
@@ -12,6 +13,13 @@ const rentals = require("./routes/rentals");
 const users = require("./routes/users");
 const Joi = require("Joi");
 Joi.objectId = require("joi-objectid")(Joi);
+
+// winston.add(winston.transports.File, { filename: "logfile.log" });
+
+if (!config.get("jwtPrivateKey")) {
+  console.error("FATAL ERROR: jwtPrivateKey is not defined");
+  process.exit(1);
+}
 
 mongoose
   .connect("mongodb://localhost/vidcity")
@@ -27,11 +35,6 @@ app.use("/api/users", users);
 app.use("/api/auth", auth);
 
 app.use(error);
-
-if (!config.get("jwtPrivateKey")) {
-  console.error("FATAL ERROR: jwtPrivateKey is not defined");
-  process.exit(1);
-}
 
 const port = 3900;
 
