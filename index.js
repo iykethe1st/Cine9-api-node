@@ -1,6 +1,6 @@
 require("express-async-errors");
 const winston = require("winston");
-const { logger } = require("./middleware/error");
+const error = require("./middleware/error");
 const config = require("config");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -13,10 +13,6 @@ const rentals = require("./routes/rentals");
 const users = require("./routes/users");
 const Joi = require("Joi");
 Joi.objectId = require("joi-objectid")(Joi);
-
-process.on("uncaughtException", (ex) => {
-  console.log("AN UNCAUGHT EXCEPTION OCCURED");
-});
 
 throw new Error("An error occured during startup");
 
