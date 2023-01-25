@@ -1,13 +1,12 @@
-const config = require("config");
 const express = require("express");
 const app = express();
-const { log } = require("./middleware/logger");
+const { logger } = require("./startup/logger");
 
-const Joi = require("Joi");
-Joi.objectId = require("joi-objectid")(Joi);
-log();
+require("./startup/logger");
 require("./startup/routes")(app);
 require("./startup/db")();
+require("./startup/config")();
+require("./startup/validation")();
 
 // Unhandled Promise rejection test
 
@@ -16,15 +15,10 @@ require("./startup/db")();
 //   console.log("done");
 // });
 
-if (!config.get("jwtPrivateKey")) {
-  console.error("FATAL ERROR: jwtPrivateKey is not defined");
-  process.exit(1);
-}
-
 const port = 3900;
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}...`);
+  logger.info(`Listening on port ${port}...`);
 });
 
 // export vidcity_jwtPrivateKey=mySecureKey

@@ -4,6 +4,7 @@ require("express-async-errors");
 
 const logger = winston.createLogger({
   transports: [
+    new winston.transports.Console({ colorize: true, prettyPrint: true }),
     new winston.transports.File({ filename: "logfile.log" }),
     new winston.transports.MongoDB({
       db: "mongodb://localhost/vidcity",
@@ -11,7 +12,7 @@ const logger = winston.createLogger({
   ],
 });
 
-module.exports = function () {
+function log() {
   if (process.env.NODE_ENV !== "production") {
     logger.add(
       new winston.transports.Console({
@@ -21,12 +22,14 @@ module.exports = function () {
   }
 
   logger.exceptions.handle(
+    new winston.transports.Console({ colorize: true, prettyPrint: true }),
     new winston.transports.File({ filename: "uncaughtExceptions.log" })
   );
 
   process.on("unhandledRejection", (ex) => {
     throw ex;
   });
-};
+}
 
 exports.logger = logger;
+exports.log = log;

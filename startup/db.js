@@ -1,6 +1,6 @@
 const winston = require("winston");
 const mongoose = require("mongoose");
-const { logger } = require("../middleware/logger");
+const { logger } = require("./logger");
 
 module.exports = function (params) {
   mongoose
